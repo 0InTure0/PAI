@@ -1,0 +1,56 @@
+MQTT 라즈베리파이 세팅과정
+
+기본 세팅
+1. SD카드 라즈비안 OS설치하기
+2. 라즈비안 부팅
+  1) 부팅시 언어와 나라는 영어 시간은 Seoul로 세팅
+  2) 스크린 설정
+  3) 와이파이 설정
+  4) 업데이트 소프트웨어하기
+3. 한글폰트 세팅
+  sudo apt install fonts-unfonts-core
+4. 와이파이 세팅
+  오른쪽 위 라즈베리버튼 -> Raspberry Pi Configuration > Localisation > Set WiFi Country > GB Britain(UK)
+5. 파이썬 설치
+  1) sudo apt update
+  2) sudo apt install python3
+  2) sudo apt install python3-pip
+
+IP고정
+ 1) sudo nano /etc/dhcpcd.conf
+ 2) 맨 밑에 입력 
+   interface wlan0
+   static ip_address=" "  //현재 아이피
+   static routers=" "      //현재 아이피의 마지막만 1로 변경
+  3) sudo /etc/init.d/networking restart
+  4) sudo reboot
+
+MQTT세팅
+1) sudo apt update && sudo apt upgrade -y		(소프트웨어 업데이트)
+2) sudo apt install mosquitto mosquitto-clients -y	(mqtt 설치)
+3) sudo systemctl status mosquitto			(mqtt 실행)
+4) sudo systemctl start mosquitto			(mqtt 활성화가 안 되었을 경우)
+5) mosquitto_sub –t temp				(서브크라이버 기본 명령)
+6) mosquitto_pub –t temp –m 12.2			(퍼블리셔 기본 명령)
+7) cd etc/mosquitto
+8) sudo nano passwordfile
+  hyunsu:0223
+  hyunsu:0223
+  mqtt_hyunsu:0223
+9) sudo mosquitto_passwd –U passwordfile
+10) cd conf.d
+11) sudo nano default.conf
+  allow_anonymous false
+  password_file /etc/mosquitto/passwordfile
+12) service mosquitto stop  
+13) service mosquitto start
+14) mosquitto_sub -h localhost -t /topic -u hyunsu -P 0223   // subscribe
+15) mosquitto_pub -h localhost -t /topic -u hyunsu -P 0223 -m "test"  //publish
+
+
+pigpio세팅 (지터링 제거)
+$wget https://github.com/joan2937/pigpio/archive/master.zip
+$unzip master.zip
+$cd pigpio-master
+$make
+$sudo make install

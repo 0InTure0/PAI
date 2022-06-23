@@ -12,7 +12,7 @@ const char* userId = "hyunsu";           //유저 아이디
 const char* userPw = "0223";             //유저 비밀번호(메인 컴퓨터)
 const char* clientId = userId;           //클라이언트 아이디 = 유저 아이디
 char* topic = "Smart/Myhome/#";     //퍼블리쉬 할 때 사용할 토픽의 이름
-char* server = "192.168.45.202";         //MQTT broker IP 메인 컴퓨터의 어드래스
+char* server = "192.168.45.224";         //MQTT broker IP 메인 컴퓨터의 어드래스
 int intmsg;                              //받은 메시지를 인트로 변환하기 위해 선언
 char messageBuf[100];                    //메시지를 받기 위해 길이 선언
 
@@ -23,15 +23,8 @@ unsigned long set_time = 4294967295;    //millis함수가 넘지 못하는 수 (
 
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-void callback(char* topic, byte* payload, unsigned int length) {    //콜백 함수로 토픽의 이름, 들어오는 값, 값의 길이를 받음
-  Serial.println("Message arrived!\nTtopic: " + String(topic));     //토픽명을 출력
-  Serial.println("Length: "+ String(length, DEC));                  //문자열의 길이를 출력
-  strncpy(messageBuf, (char*)payload, length);                      //messageBuf안에 토픽으로 들어오는 값(payload)을 값의 길이만큼 집어넣음
-  messageBuf[length] = '\0';                                        //문자열의 길이 끝에 '\0'(null)을 넣어 문자열의 끝을 알려줌
-  String strmsg = String(messageBuf);                               //messageBuf를 아두이노의 string으로 선언
-  
-  if(String(topic) == "Smart/Myhome/IOT/Bedroom_LED"){              //안방 조명토픽에 값이 들어오면 실행
-    Serial.println(strmsg);                                         //들어온 값을 STRING으로 출력
+void pixelcolor(String strmsg){
+      Serial.println(strmsg);                                         //들어온 값을 STRING으로 출력
     int number = (int) strtol( &strmsg[1], NULL, 16);               //HEX값을 RGB로 변환해주는 코드
     int r = number >> 16;
     int g = number >> 8 & 0xFF;
@@ -41,12 +34,42 @@ void callback(char* topic, byte* payload, unsigned int length) {    //콜백 함
       pixels.show();                                               //네오픽셀에 값을 보내서 색상값을 업데이트
       delay(20);
    }
-  }
-  if(String(topic) == "Smart/Myhome/IOT/Bedroom_LED/Timer"){       //타이머 토픽에 값이 들어오면 실행
+}
+
+void Timerset(String strmsg){
     Serial.println(strmsg);
     intmsg = strmsg.toInt();                                       //String으로 들어온 payload값을 integer값으로 변환
     sc_time = intmsg*60*1000;                                      //들어온 타이머 값을 분단위로 변환
     set_time = millis() + sc_time;                                 //보드 시간에 타이머 시간을 더하여 set_time에 입력
+}
+
+void Halfmode(String strmsg){
+    Serial.println(strmsg);
+    intmsg = strmsg.toInt();  
+    if(intmsg == 1){
+      for(int i=0;i<NUMPIXELS;i+=2){
+        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+        pixels.show();                                               //네오픽셀에 값을 보내서 색상값을 업데이트
+        delay(20);
+      }
+    }
+}
+
+void callback(char* topic, byte* payload, unsigned int length) {    //콜백 함수로 토픽의 이름, 들어오는 값, 값의 길이를 받음
+  Serial.println("Message arrived!\nTtopic: " + String(topic));     //토픽명을 출력
+  //Serial.println("Length: "+ String(length, DEC));                  //문자열의 길이를 출력
+  strncpy(messageBuf, (char*)payload, length);                      //messageBuf안에 토픽으로 들어오는 값(payload)을 값의 길이만큼 집어넣음
+  messageBuf[length] = '\0';                                        //문자열의 길이 끝에 '\0'(null)을 넣어 문자열의 끝을 알려줌
+  String strmsg = String(messageBuf);                               //messageBuf를 아두이노의 string으로 선언
+  
+  if(String(topic) == "Smart/Myhome/IOT/Bedroom_LED"){              //안방 조명토픽에 값이 들어오면 실행
+     pixelcolor(strmsg);
+  }
+  if(String(topic) == "Smart/Myhome/IOT/Bedroom_LED/Timer"){       //타이머 토픽에 값이 들어오면 실행
+    Timerset(strmsg);
+  }
+  if(String(topic) == "Smart/Myhome/IOT/Bedroom_LED/Halfmode"){       //타이머 토픽에 값이 들어오면 실행
+    Halfmode(strmsg);
   }
 }
 

@@ -16,7 +16,7 @@ char* server = "192.168.45.224";         //MQTT broker IP 메인 컴퓨터의 �
 int intmsg;                              //받은 메시지를 인트로 변환하기 위해 선언
 char messageBuf[100];                    //메시지를 받기 위해 길이 선언
 
-#define PIN            12
+#define PIN            14
 #define NUMPIXELS      63
 int sc_time;
 unsigned long set_time = 4294967295;    //millis함수가 넘지 못하는 수 (unsigned long의 최댓값)

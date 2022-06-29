@@ -1,12 +1,25 @@
-#sudo pip3 install playsound && gTTs && speechrecognition
-from gtts.tts import gTTS
-import playsound
+#-*- coding:utf-8 -*-
+import urllib3
+import json
+import base64
+openApiURL = "http://aiopen.etri.re.kr:8000/WiseASR/Recognition"
+accessKey = "87e83362-6183-4a71-930f-5ce4515ea20a"
+audioFilePath = "hello.wav"
+languageCode = "korean"
 
+file = open(audioFilePath, "rb")
+audioContents = base64.b64encode(file.read()).decode("utf8")
+file.close()
 
-def speak(text):
-  tts = gTTS(text=text, lang='ko')
-  filename='voice.wav'
-  tts.save(filename)  
-  playsound.playsound(filename)
+requestJson = {"access_key": accessKey, "argument": {"language_code": languageCode, "audio": audioContents}}
+http = urllib3.PoolManager()
+response = http.request("POST", openApiURL, headers={"Content-Type": "application/json; charset=UTF-8"}, body=json.dumps(requestJson))
 
-speak("안녕하세요 인공지능 펫봇 파이입니다~334, 100")
+#print("[responseCode] " + str(response.status))
+#print("[responBody]")
+print((str(response.data,"utf-8")))
+#녹음된 음성만 문자열로 바꿔주는 기능
+list_data = list(str(response.data,"utf-8"))
+data_length = len(list_data)
+a = "".join(list_data[43:data_length-3])
+print(a)

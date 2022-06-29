@@ -1,0 +1,17 @@
+python stt
+https://mingchin.tistory.com/146
+
+python tts
+https://goodsgoods.tistory.com/328
+
+booting start python code
+https://developer-joe.tistory.com/132
+
+solidworks to urdf
+https://www.youtube.com/watch?v=NvceE9zKUo4
+
+라즈베리파이 아두이노 시리얼 통신
+https://blog.naver.com/PostView.nhn?blogId=emperonics&logNo=222039301356
+
+음성인식 프로그램 사이트
+https://aiopen.etri.re.kr/key_main.php

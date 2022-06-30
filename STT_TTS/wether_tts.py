@@ -1,8 +1,7 @@
 from gtts.tts import gTTS
 from playsound import playsound
-import urllib
 from bs4 import BeautifulSoup
-import urllib.request
+import requests
 
 #네이버 기상청 지역별 링크
 city_input = input('city: ') #지역 선택하는 인풋 함수

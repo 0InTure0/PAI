@@ -6,7 +6,7 @@ MQTT 라즈베리파이 세팅과정
   1) 부팅시 언어와 나라는 영어 시간은 Seoul로 세팅
   2) 스크린 설정
   3) 와이파이 설정
-  4) 업데이트 소프트웨어하기
+  4) 소프트웨어 업데이트하기
 3. 한글폰트 세팅
   sudo apt install fonts-unfonts-core
 4. 와이파이 세팅
@@ -54,3 +54,12 @@ $unzip master.zip
 $cd pigpio-master
 $make
 $sudo make install
+
+pip3 intsall 
+  gTTS, playsound, bs4, requests, tkinter
+  
+  
+  
+  
+  
+  

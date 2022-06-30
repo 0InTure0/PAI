@@ -1,30 +1,16 @@
-import string
-import urllib
 from bs4 import BeautifulSoup
-import urllib.request
+import requests
 
 #네이버 기상청 지역별 링크
 city_input = input('city: ') #지역 선택하는 인풋 함수
-if(city_input == "서울"):
-    webpage = urllib.request.urlopen('https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=%EC%84%9C%EC%9A%B8%EB%82%A0%EC%94%A8')
-elif(city_input == "울산"):
-    webpage = urllib.request.urlopen('https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%EC%9A%B8%EC%82%B0+%EB%82%A0%EC%94%A8&')
-elif(city_input == "수원"):
-    webpage = urllib.request.urlopen('https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%EC%88%98%EC%9B%90+%EB%82%A0%EC%94%A8')
-elif(city_input == "부산"):
-    webpage = urllib.request.urlopen('https://search.naver.com/search.naver?sm=tab_sug.asiw&where=nexearch&query=%EB%B6%80%EC%82%B0+%EB%82%A0%EC%94%A8')
-elif(city_input == "대전"):
-    webpage = urllib.request.urlopen('https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%EB%8C%80%EC%A0%84+%EC%9C%A0%EC%84%B1%EA%B5%AC+%EB%82%A0%EC%94%A8')
-elif(city_input == "포항"):
-    webpage = urllib.request.urlopen('https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%ED%8F%AC%ED%95%AD+%EB%82%A0%EC%94%A8')
+query = city_input + "+날씨"
+res = requests.get('https://search.naver.com/search.naver?display=15&f=&filetype=0&page=1&query='+query+'&oquery='+query)
+soup = BeautifulSoup(res.text, 'html.parser')
 
-
-soup = BeautifulSoup(webpage, 'html.parser')
 cl_weather = soup.find_all('span','blind')
 cl_time = soup.find_all('dt','time')
 cl_this_weather = soup.find('span','weather')
 cl_this_temp = soup.find('div','temperature_text')
-
 cl_this_weather_txt = cl_this_weather.text
 
 def crawling_10h_rain():

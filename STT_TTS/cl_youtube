@@ -1,0 +1,18 @@
+#https://dejavuqa.tistory.com/109
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+# Chrome WebDriver를 이용해 Chrome을 실행한다.
+driver = webdriver.Chrome()
+
+query = "롤 모델 헬로"
+
+driver.get("https://www.youtube.com/results?search_query=" + query)
+
+continue_link = driver.find_element(By.XPATH, "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-video-renderer[1]/div[1]/ytd-thumbnail/a/yt-img-shadow/img")
+
+# 해당 링크를 클릭한다.
+continue_link.click()
+
+continue_btn = driver.find_element(By.XPATH, "/html/body/ytd-app/div[1]/div/ytd-masthead/div[3]/div[3]/div[2]/ytd-button-renderer/a/tp-yt-paper-button")
+continue_btn.click()

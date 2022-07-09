@@ -1,5 +1,5 @@
 from time import localtime, time
-strmsg = "리마인더 7시간 50분 뒤에 알람 맞춰줘"
+strmsg = " "+"7시간 50분 뒤에 알람 맞춰줘"
 reminder_dic = {999999999999999: 999999999999999}
 tm = localtime(time())
 #print(tm.tm_year,"년",tm.tm_mon,"월",tm.tm_mday,"일",tm.tm_hour,"시",tm.tm_min,"분",tm.tm_sec,"초")

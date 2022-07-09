@@ -278,11 +278,11 @@ def voice_commend(strmsg):
     if("틀어줘" in strmsg):
       youtube_play(strmsg)
   elif("리마인더" in strmsg):
-    reminder_save(strmsg)
+    reminder_save(" "+strmsg)
   elif("알람" in strmsg):
-    reminder_save(strmsg)
+    reminder_save(" "+strmsg)
   
 
-str1 = "리마인더 6시 집에가기"
+str1 = "6시 알람"
 voice_commend(str1)
 reminder_play()

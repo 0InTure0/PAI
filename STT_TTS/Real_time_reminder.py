@@ -1,22 +1,23 @@
 from time import localtime, time
-strmsg = " "+"7시간 50분 뒤에 알람 맞춰줘"
+strmsg = " "+"리마인더 4시 50분 코딩하기"
 reminder_dic = {999999999999999: 999999999999999}
 tm = localtime(time())
 #print(tm.tm_year,"년",tm.tm_mon,"월",tm.tm_mday,"일",tm.tm_hour,"시",tm.tm_min,"분",tm.tm_sec,"초")
 def string_to_time(strmsg, list_msg):
+  #시간 단위의 위치 찾기
   year_find = strmsg.find("년")
   mon_find = strmsg.find("월")
   day_find = strmsg.find("일")
   hour_find = strmsg.find("시")
   min_find = strmsg.find("분")
   sec_find = strmsg.find("초")
+  #리얼타임과 저장하는 타임을 리스트 형태로 저장
   real_time_list = [tm.tm_year, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec]
   time_set_list = [year_find, mon_find, day_find, hour_find, min_find, sec_find]
+  #리얼타임과 저장하는 타임을 리스트 형태로 저장
   time_count = 5
   msg_time = 0
-  a = 0
   #빅스비 = 시간이라는 말이 있거나 분만 있을 경우 몇 time 뒤로 인식
-
   for idx, val in enumerate(time_set_list):
     if not(val == -1):
       list_to_str = "".join(list_msg[val-2:val])
@@ -38,22 +39,19 @@ def string_to_time(strmsg, list_msg):
         if(int1 >= 6000):
           int1 = int1 +4000
         msg_time = msg_time + int1
-
-
       else:
         int_msg = int(list_to_str)
         int1 = int_msg*(10**(2*time_count))
         msg_time = msg_time + int1
       msg_start = val
     else:
-      if not(a == 5):
-        int1 = real_time_list[a]*(10**(2*time_count))
+      #년부터 분까지의 시간중 문자열에 없는 경우 리얼타임의 값을 넣음
+      if not(idx == 5):
+        int1 = real_time_list[idx]*(10**(2*time_count))
         msg_time = msg_time + int1
-    a = a+1
     time_count = time_count-1
   real_time_count = 5
   real_time_int = 0
-  #리얼타임 하나의 수열로 변환
   for i in real_time_list:
     int2 = i*(10**(2*real_time_count))
     real_time_int = real_time_int + int2
@@ -102,7 +100,7 @@ def reminder_play():
     real_time_int = real_time_int + int2
     real_time_count = real_time_count-1 
   for k in reminder_dic.keys():
-    if(real_time_count >= k):
+    if(real_time_int >= k):
       if(reminder_dic[k] == "알람"):
         print("알람소리 띠리링띠리링")
       else:

@@ -20,7 +20,6 @@ def string_to_time(strmsg, list_msg):
   for idx, val in enumerate(time_set_list):
     if not(val == -1):
       list_to_str = "".join(list_msg[val-2:val])
-      #내일이라는 단어가 있으면 숫자로 변환하지 않음
       if(idx == 3 and list_msg[val+1] == "간"):
         int_msg = int(list_to_str)
         int1 = (tm.tm_hour+int_msg)*(10**(2*time_count))

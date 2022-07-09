@@ -1,6 +1,13 @@
-import string
 from bs4 import BeautifulSoup
 import requests
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import undetected_chromedriver as uc
+from time import localtime, time
+reminder_dic = {999999999999999: 999999999999999}
+tm = localtime(time())
+
 
 city_list = ['서울','경기','수원','대전','부산','울산','전라북도','전라남도','강원도','용인','의정부',
         '강남구', '서초구','송파구','금천구','관악구','구로구','노원구','도봉구','강북구',
@@ -63,7 +70,7 @@ def cl_Temp():
   float_hightemp = float(string_hightemp)
   print(cl_lowest.text, cl_highest.text+'입니다.')
   if(float_hightemp >= 26):
-    print("매운 더운 날씨네요. 더위 조심하세요")
+    print("매우 더운 날씨네요. 더위 조심하세요")
   if(18 >= float_lowtemp >= 13):
     print("약간 쌀쌀한 날씨네요. 나갈 때 따뜻하게 입어야 겠어요.")
   if(float_lowtemp <= 12):
@@ -103,42 +110,179 @@ def find_word(strmsg):
   strmsg_list = list(strmsg)
   if (mean1 > 1):
     word  = "".join(strmsg_list[:mean1])
-  elif (mean3 > mean2):
-    if (mean2 > 1):
-      word  = "".join(strmsg_list[:mean2])
+  elif (mean3 > mean2 and mean2 > 1):
+    word  = "".join(strmsg_list[:mean2])
   elif not(mean3 == -1):
     word  = "".join(strmsg_list[:mean3])
   elif not(mean4 == -1):
     word  = "".join(strmsg_list[:mean4])
   cl_dictionary(word)
 
-#음성 명령 인식
-def voice_commend(strmsg):
-  for j in city_list:                                #지역 리스트
+#유튜브 재생
+def youtube_play(strmsg):
+  youtube_find = strmsg.find("유튜브")
+  play_find = strmsg.find("틀어줘")
+  search_word  = "".join(list(strmsg)[youtube_find+3:play_find])
+  email = "minchul90172@gmail.com\n"
+  password = "hyunsu0223\n"
+  driver = uc.Chrome(use_subprocess=True)
+  wait = WebDriverWait(driver, 20)
+  url = 'https://accounts.google.com/ServiceLogin/signinchooser?service=youtube&uilel=3&passive=true&continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Ddesktop%26hl%3Dko%26next%3Dhttps%253A%252F%252Fwww.youtube.com%252F&hl=ko&ec=65620&flowName=GlifWebSignIn&flowEntry=ServiceLogin'
+  driver.get(url)
+  wait.until(EC.visibility_of_element_located((By.NAME, 'identifier'))).send_keys(email)
+  wait.until(EC.visibility_of_element_located((By.NAME, 'password'))).send_keys(password)
+  wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "ytd-searchbox"))).send_keys(search_word)
+  wait.until(EC.visibility_of_element_located((By.ID, "search-icon-legacy"))).click()
+  wait.until(EC.visibility_of_element_located((By.XPATH, "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-video-renderer[1]/div[1]/ytd-thumbnail/a/yt-img-shadow/img"))).click()
+  wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "ytp-fullscreen-button"))).click()
+  while True:
+    str2 = input("유튜브 끌까요?: ")  #음성인식 함수 집어넣고 꺼줘라는 말이 인식 될 때까지 반복
+    pass
+    if("유튜브 꺼" in str2 or "꺼" in str2):
+      break
+
+#리스트에서 지역 찾기
+def find_city(strmsg):
+  for j in city_list:                               #지역 리스트
     if( j in strmsg):
       city_input = j
       break
+    city_input = "서울시 노원구"                     #기본 지역값
+  return city_input
+
+#문자열에서 시간 찾아서 수열로 변환, 현재시간을 수열로 변환
+def string_to_time(strmsg, list_msg):
+  #시간 단위의 위치 찾기
+  year_find = strmsg.find("년")
+  mon_find = strmsg.find("월")
+  day_find = strmsg.find("일")
+  hour_find = strmsg.find("시")
+  min_find = strmsg.find("분")
+  sec_find = strmsg.find("초")
+  #현재시간과 저장하는 타임을 리스트 형태로 저장
+  real_time_list = [tm.tm_year, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec]
+  time_set_list = [year_find, mon_find, day_find, hour_find, min_find, sec_find]
+  time_count = 5
+  msg_time = 0
+  #빅스비 = 시간이라는 말이 있거나 분만 있을 경우 몇 time 뒤로 인식
+  for idx, val in enumerate(time_set_list):
+    if not(val == -1):
+      list_to_str = "".join(list_msg[val-2:val])
+      if(idx == 3 and list_msg[val+1] == "간"):
+        int_msg = int(list_to_str)
+        int1 = (tm.tm_hour+int_msg)*(10**(2*time_count))
+        if(int1 >= 240000):
+          int1 = int1 + 760000
+        msg_time = msg_time + int1
+      elif(idx == 3 and tm.tm_hour > 12):
+        int_msg = int(list_to_str)
+        int1 = (int_msg+12)*(10**(2*time_count))
+        msg_time = msg_time + int1
+      elif(idx == 2 and "내일" in strmsg):
+        msg_time = msg_time + (tm.tm_mday*1000000)
+      elif(idx == 4 and "뒤" in list_msg[min_find:min_find+5]):
+        int_msg = int(list_to_str)
+        int1 = (tm.tm_min+int_msg)*(10**(2*time_count))
+        if(int1 >= 6000):
+          int1 = int1 +4000
+        msg_time = msg_time + int1
+      else:
+        int_msg = int(list_to_str)
+        int1 = int_msg*(10**(2*time_count))
+        msg_time = msg_time + int1
+      msg_start = val
     else:
-      city_input = "서울시 노원구"                   #기본 지역값
-  if("오늘" in strmsg):
-    if("날씨" in strmsg):
-      weather_cl_all(city_input)
-    elif("온도" in strmsg or "몇 도" in strmsg):
-      cl_city_weather(city_input)
-      cl_Temp()
+      #년부터 분까지의 시간중 문자열에 없는 경우 리얼타임의 값을 넣음
+      if not(idx == 5):
+        int1 = real_time_list[idx]*(10**(2*time_count))
+        msg_time = msg_time + int1
+    time_count = time_count-1
+  real_time_count = 5
+  real_time_int = 0
+  for i in real_time_list:
+    int2 = i*(10**(2*real_time_count))
+    real_time_int = real_time_int + int2
+    real_time_count = real_time_count-1
   if("내일" in strmsg):
-    if("날씨" in strmsg):
+    msg_time = msg_time + 1000000
+  elif("모레" in strmsg):
+    msg_time = msg_time + 2000000
+  elif("글피" in strmsg):
+    msg_time = msg_time + 3000000
+  elif("그글피" in strmsg):
+    msg_time = msg_time + 4000000
+  if("뒤" in strmsg):
+    if("하루" in strmsg):
+      msg_time = msg_time + 1000000
+    if("이틀" in strmsg):
+      msg_time = msg_time + 2000000
+    if("사흘" in strmsg):
+      msg_time = msg_time + 3000000
+    if("나흘" in strmsg):
+      msg_time = msg_time + 4000000
+  return msg_time, real_time_int, msg_start
+
+#리마인더의 문자 또는 알람의 시간을 딕셔너리로 저장
+def reminder_save(strmsg):
+  list_msg = list(strmsg)
+  msg_time, real_time_int, msg_start = string_to_time(strmsg, list_msg)
+  if(list_msg[msg_start+1] == "에"):
+    msg_start = msg_start+1
+  if(list_msg[msg_start+1] == " " or list_msg[msg_start+2] == " "):
+    msg_start = msg_start+1
+  remind_msg = "".join(list_msg[msg_start+1:])
+  if ("알람" in remind_msg):
+    reminder_dic[msg_time] = "알람"
+  else:
+    reminder_dic[msg_time] = remind_msg
+  return real_time_int
+
+#딕셔너리 내에 있는 키값을 현재시간과 비교하여 시간이 지나면 알림을 보냄
+def reminder_play():
+  real_time_list = [tm.tm_year, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec]
+  real_time_count = 5
+  real_time_int = 0
+  for i in real_time_list:
+    int2 = i*(10**(2*real_time_count))
+    real_time_int = real_time_int + int2
+    real_time_count = real_time_count-1 
+  for k in reminder_dic.keys():
+    if(real_time_int >= k):
+      if(reminder_dic[k] == "알람"):
+        print("알람소리 띠리링띠리링")
+      else:
+        print("리마인더 알림입니다. ", end='')
+        print(reminder_dic[k])
+
+#음성 명령 인식
+def voice_commend(strmsg):
+  if("날씨" in strmsg):
+    city_input = find_city(strmsg)
+    if("내일" in strmsg):
       cl_city_weather(city_input)
       cl_tomorrow()
-  if("지역" in strmsg):
+    else:
+      weather_cl_all(city_input)
+  elif("온도" in strmsg or "몇 도" in strmsg):
+    city_input = find_city(strmsg)
+    cl_city_weather(city_input)
+    cl_Temp()
+  elif("지역" in strmsg):
     if("추가" in strmsg):
       list_msg = list(strmsg)
       city_append = "".join(list_msg[5:])
       city_list.append(city_append)
-  if("뜻" in strmsg or "뭐야" in strmsg):
+  elif("뜻" in strmsg or "뭐야" in strmsg):
     find_word(strmsg)
+  elif("유튜브" in strmsg):
+    if("틀어줘" in strmsg):
+      youtube_play(strmsg)
+  elif("리마인더" in strmsg):
+    reminder_save(strmsg)
+  elif("알람" in strmsg):
+    reminder_save(strmsg)
+  
 
-
-
-str1 = "마우스 뜻이 뭐야??"
+str1 = "리마인더 6시 집에가기"
 voice_commend(str1)
+reminder_play()

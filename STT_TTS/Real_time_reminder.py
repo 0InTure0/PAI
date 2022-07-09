@@ -1,10 +1,9 @@
 from time import localtime, time
-strmsg = "리마인더 7월 20일 11시 30분에 저녁밥 해먹기"
+strmsg = "리마인더 7월 20일 11시 30분에 알람 맞춰줘"
 reminder_dic = {999999999999999: 999999999999999}
 tm = localtime(time())
 #print(tm.tm_year,"년",tm.tm_mon,"월",tm.tm_mday,"일",tm.tm_hour,"시",tm.tm_min,"분",tm.tm_sec,"초")
 def string_to_time(strmsg, list_msg):
-
   year_find = strmsg.find("년")
   mon_find = strmsg.find("월")
   day_find = strmsg.find("일")
@@ -53,22 +52,28 @@ def reminder_save(strmsg):
   if(list_msg[msg_start+1] == " " or list_msg[msg_start+2] == " "):
     msg_start = msg_start+1
   remind_msg = "".join(list_msg[msg_start+1:])
-  reminder_dic[msg_time] = remind_msg
+  if ("알람" in remind_msg):
+    reminder_dic[msg_time] = "알람"
+  else:
+    reminder_dic[msg_time] = remind_msg
   return real_time_int
 
-def reminder_play(strmsg):
+def reminder_play():
   real_time_list = [tm.tm_year, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec]
   real_time_count = 5
   real_time_int = 0
   for i in real_time_list:
     int2 = i*(10**(2*real_time_count))
     real_time_int = real_time_int + int2
-    real_time_count = real_time_count-1
-  print(real_time_int)
+    real_time_count = real_time_count-1 
   for k in reminder_dic.keys():
-    if(real_time_int >= k):
-      print("리마인더 알림입니다. ", end='')
-      print(reminder_dic[k])
+    if(real_time_count >= k):
+      if(reminder_dic[k] == "알람"):
+        print("알람소리 띠리링띠리링")
+      else:
+        print("리마인더 알림입니다. ", end='')
+        print(reminder_dic[k])
+
 
 reminder_save(strmsg)
-reminder_play(strmsg)
+reminder_play()

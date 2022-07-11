@@ -37,6 +37,11 @@ def search_word_strmsg(strmsg):
   while True:
     if(word_value == False):
       strmsg = input("다시 입력해주세요:")
+      while True:
+        if(len(strmsg) == 1):
+          strmsg = input('단어가 한 글자입니다 다시 입력해주세요:')
+        else:
+          break
       word_value = cl_dictionary_end_talk(strmsg)
       if("졌어" in strmsg or "졌다" in strmsg or "너가 이겼어" in strmsg or "안 해" in strmsg):
         print("끝말잇기 즐거웠습니다!")
@@ -171,4 +176,6 @@ def last_start():
 
 #first_start()
 last_start()
+
+
 

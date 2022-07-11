@@ -1,29 +1,26 @@
-from bs4 import BeautifulSoup
-import requests
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import undetected_chromedriver as uc
 
-def cl_word_list():
-  res = requests.get('https://ko.wiktionary.org/wiki/%EB%B6%80%EB%A1%9D:%EC%9E%90%EC%A3%BC_%EC%93%B0%EC%9D%B4%EB%8A%94_%ED%95%9C%EA%B5%AD%EC%96%B4_%EB%82%B1%EB%A7%90_5800')
-  soup = BeautifulSoup(res.text, 'html.parser')
-  cl_word = soup.find_all('dd')
+el_list2 = []
 
-  cl_word_list = []
-  word_list = []
-  for i in range(5889):
-    word = cl_word[i].text
-    cl_word_list.append(word)
-
-  for j in cl_word_list:
-    if (len(j) > 1):
-      list_j = list(j)
-      if(not list_j[len(j)-1] == '다' and not "(" in j and not ":" in j):
-        word_list.append(j)
-    else:
-      pass
+def youtube_play():
+  driver = uc.Chrome(use_subprocess=True)
+  wait = WebDriverWait(driver, 20)
+  url = 'https://ko.wiktionary.org/wiki/%EB%B6%84%EB%A5%98:%ED%95%9C%EA%B5%AD%EC%96%B4_%EB%AA%85%EC%82%AC'
+  driver.get(url)
   
-  return word_list
+  for j in range(128):
+    xpath = "//*[@id='mw-pages']/div/div/div/ul/li"
+    el_list = driver.find_elements(By.XPATH, xpath)
+    for i in el_list:
+      el = i.text
+      el_list2.append(el)
+    wait.until(EC.visibility_of_element_located((By.XPATH, '/html/body/div[3]/div[3]/div[5]/div[2]/div[2]/a[2]'))).click()
 
-word_list = cl_word_list()
+youtube_play()
 
 with open('Word_list.txt', 'w', encoding='utf8') as f:
-    for line in word_list:
+    for line in el_list2:
         f.write(line+'\n')

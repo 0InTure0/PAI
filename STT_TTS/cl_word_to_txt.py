@@ -5,7 +5,7 @@ import undetected_chromedriver as uc
 
 el_list2 = []
 
-def youtube_play():
+def cl_text():
   driver = uc.Chrome(use_subprocess=True)
   wait = WebDriverWait(driver, 20)
   url = 'https://ko.wiktionary.org/wiki/%EB%B6%84%EB%A5%98:%ED%95%9C%EA%B5%AD%EC%96%B4_%EB%AA%85%EC%82%AC'
@@ -19,7 +19,7 @@ def youtube_play():
       el_list2.append(el)
     wait.until(EC.visibility_of_element_located((By.XPATH, '/html/body/div[3]/div[3]/div[5]/div[2]/div[2]/a[2]'))).click()
 
-youtube_play()
+cl_text()
 
 with open('Word_list.txt', 'w', encoding='utf8') as f:
     for line in el_list2:

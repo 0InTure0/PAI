@@ -468,4 +468,3 @@ def voice_commend(strmsg):
 
 str1 = input("명령을 입력해주세요:")
 voice_commend(str1)
-reminder_play()

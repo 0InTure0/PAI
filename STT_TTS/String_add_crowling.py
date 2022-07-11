@@ -1,4 +1,3 @@
-from types import NoneType
 from bs4 import BeautifulSoup
 import requests
 from selenium.webdriver.common.by import By
@@ -95,12 +94,12 @@ def weather_cl_all(city_input):
   cl_Weather()
 
 #내일 날씨, 오전 온도, 오후 온도를 알려줌
-def cl_tomorrow():
+def cl_tomorrow(city_input):
   tom_temp_list = list(cl_tom_temp[27].text)
   string_tom_temp = "".join(tom_temp_list[5:7])
-  float_tom_temp = int(string_tom_temp)               #내일 온도
-  cl_tom_weather[1].text                              #내일 날씨
-  print(float_tom_temp)
+  tom_weather = cl_tom_weather[1].text                              #내일 날씨
+  speak_tom_weather = "내일 " + city_input + "의 온도는 "+ string_tom_temp+ "도 날씨는 " + tom_weather+"입니다."
+  print(speak_tom_weather)
 
 #사전에서 단어 찾기
 def cl_dictionary(dic_input):
@@ -240,6 +239,7 @@ def reminder_save(strmsg):
     reminder_dic[msg_time] = "알람"
   else:
     reminder_dic[msg_time] = remind_msg
+  print("리마인더를 저장 하였습니다.")
   return real_time_int
 
 #딕셔너리 내에 있는 키값을 현재시간과 비교하여 시간이 지나면 알림을 보냄
@@ -258,6 +258,8 @@ def reminder_play():
       else:
         print("리마인더 알림입니다. ", end='')
         print(reminder_dic[k])
+    reminder_d = {key: value for key, value in reminder_dic.items() if not real_time_int >= key}
+  return reminder_d
 
 #사전에서 단어 찾기
 def cl_dictionary_end_talk(dic_input):
@@ -268,7 +270,7 @@ def cl_dictionary_end_talk(dic_input):
   try:
     cl_word = soup.find('mark')
     cl_meaning = soup.find('p','api_txt_lines')
-    if (type(cl_meaning) == NoneType):
+    if (type(cl_meaning) == type(None)):
       word_value = False
       print("그 단어는 없는 단어인 것 같습니다.")
     else:
@@ -436,7 +438,7 @@ def voice_commend(strmsg):
     city_input = find_city(strmsg)
     if("내일" in strmsg):
       cl_city_weather(city_input)
-      cl_tomorrow()
+      cl_tomorrow(city_input)
     else:
       weather_cl_all(city_input)
   elif("온도" in strmsg or "몇 도" in strmsg):
@@ -466,5 +468,8 @@ def voice_commend(strmsg):
         first_start()
 
 
-str1 = input("명령을 입력해주세요:")
-voice_commend(str1)
+while True:
+  str1 = input("명령을 입력해주세요:")
+  voice_commend(str1)
+  reminder_dic = reminder_play()
+

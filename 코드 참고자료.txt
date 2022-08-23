@@ -15,3 +15,93 @@ https://blog.naver.com/PostView.nhn?blogId=emperonics&logNo=222039301356
 
 음성인식 프로그램 사이트
 https://aiopen.etri.re.kr/key_main.php
+
+
+Collecting scipy>=1.2.0
+  Using cached scipy-1.9.0.tar.gz (42.0 MB)
+  Installing build dependencies ... error
+  error: subprocess-exited-with-error
+  
+  × pip subprocess to install build dependencies did not run successfully.
+  │ exit code: 1
+  ╰─> [68 lines of output]
+      Looking in indexes: https://pypi.org/simple, https://www.piwheels.org/simple, https://www.piwheels.org/simple
+      Ignoring numpy: markers 'python_version == "3.8" and platform_machine == "aarch64" and platform_python_implementation != "PyPy"' don't match your environment
+      Ignoring numpy: markers 'python_version == "3.8" and platform_machine == "arm64" and platform_system == "Darwin"' don't match your environment
+      Ignoring numpy: markers 'python_version == "3.9" and platform_machine == "arm64" and platform_system == "Darwin"' don't match your environment
+      Ignoring numpy: markers 'platform_machine == "loongarch64"' don't match your environment
+      Ignoring numpy: markers 'python_version == "3.8" and (platform_machine != "arm64" or platform_system != "Darwin") and platform_machine != "aarch64" and platform_machine != "loongarch64" and platform_python_implementation != "PyPy"' don't match your environment
+      Ignoring numpy: markers 'python_version == "3.10" and platform_machine != "loongarch64" and platform_python_implementation != "PyPy"' don't match your environment
+      Ignoring numpy: markers 'python_version >= "3.11"' don't match your environment
+      Ignoring numpy: markers 'python_version >= "3.8" and platform_python_implementation == "PyPy"' don't match your environment
+      Collecting meson-python<0.8.0,>=0.7.0
+        Using cached https://www.piwheels.org/simple/meson-python/meson_python-0.7.0-py3-none-any.whl (17 kB)
+      Collecting meson==0.62.2
+        Using cached https://www.piwheels.org/simple/meson/meson-0.62.2-py3-none-any.whl (864 kB)
+      Collecting Cython<3.0,>=0.29.21
+        Using cached https://www.piwheels.org/simple/cython/Cython-0.29.32-cp39-cp39-linux_armv7l.whl (5.0 MB)
+      Collecting pybind11<2.10.0,>=2.4.3
+        Using cached https://www.piwheels.org/simple/pybind11/pybind11-2.9.2-py2.py3-none-any.whl (213 kB)
+      Collecting pythran<0.12.0,>=0.9.12
+        Using cached https://www.piwheels.org/simple/pythran/pythran-0.11.0-py3-none-any.whl (4.2 MB)
+      Collecting wheel<0.38.0
+        Using cached https://www.piwheels.org/simple/wheel/wheel-0.37.1-py2.py3-none-any.whl (35 kB)
+      Collecting numpy==1.19.3
+        Using cached https://www.piwheels.org/simple/numpy/numpy-1.19.3-cp39-cp39-linux_armv7l.whl (10.5 MB)
+      Collecting tomli>=1.0.0
+        Using cached https://www.piwheels.org/simple/tomli/tomli-2.0.1-py3-none-any.whl (12 kB)
+      Collecting ninja
+        Using cached ninja-1.10.2.3.tar.gz (26 kB)
+        Installing build dependencies: started
+        Installing build dependencies: finished with status 'done'
+        Getting requirements to build wheel: started
+        Getting requirements to build wheel: finished with status 'done'
+        Preparing metadata (pyproject.toml): started
+        Preparing metadata (pyproject.toml): finished with status 'done'
+      Collecting pyproject-metadata>=0.5.0
+        Using cached https://www.piwheels.org/simple/pyproject-metadata/pyproject_metadata-0.6.1-py3-none-any.whl (7.4 kB)
+      Collecting beniget~=0.4.0
+        Using cached https://www.piwheels.org/simple/beniget/beniget-0.4.1-py3-none-any.whl (9.5 kB)
+      Collecting gast~=0.5.0
+        Using cached https://www.piwheels.org/simple/gast/gast-0.5.3-py3-none-any.whl (19 kB)
+      Collecting ply>=3.4
+        Using cached https://www.piwheels.org/simple/ply/ply-3.11-py2.py3-none-any.whl (49 kB)
+      Collecting packaging>=19.0
+        Using cached https://www.piwheels.org/simple/packaging/packaging-21.3-py3-none-any.whl (40 kB)
+      Collecting pyparsing!=3.0.5,>=2.0.2
+        Using cached https://www.piwheels.org/simple/pyparsing/pyparsing-3.0.9-py3-none-any.whl (98 kB)
+      Building wheels for collected packages: ninja
+        Building wheel for ninja (pyproject.toml): started
+        Building wheel for ninja (pyproject.toml): finished with status 'error'
+        error: subprocess-exited-with-error
+      
+        × Building wheel for ninja (pyproject.toml) did not run successfully.
+        │ exit code: 1
+        ╰─> [9 lines of output]
+              File "/tmp/pip-build-env-svek7cyu/overlay/lib/python3.9/site-packages/skbuild/setuptools_wrap.py", line 613, in setup
+                cmkr = cmaker.CMaker(cmake_executable)
+              File "/tmp/pip-build-env-svek7cyu/overlay/lib/python3.9/site-packages/skbuild/cmaker.py", line 141, in __init__
+                self.cmake_version = get_cmake_version(self.cmake_executable)
+              File "/tmp/pip-build-env-svek7cyu/overlay/lib/python3.9/site-packages/skbuild/cmaker.py", line 95, in get_cmake_version
+                raise SKBuildError(
+            Traceback (most recent call last):
+      
+            Problem with the CMake installation, aborting build. CMake executable is cmake
+            [end of output]
+      
+        note: This error originates from a subprocess, and is likely not a problem with pip.
+        ERROR: Failed building wheel for ninja
+      Failed to build ninja
+      ERROR: Could not build wheels for ninja, which is required to install pyproject.toml-based projects
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: subprocess-exited-with-error
+
+× pip subprocess to install build dependencies did not run successfully.
+│ exit code: 1
+╰─> See above for output.
+
+note: This error originates from a subprocess, and is likely not a problem with pip.
+hyunsu@raspberrypi:~ $ 
+

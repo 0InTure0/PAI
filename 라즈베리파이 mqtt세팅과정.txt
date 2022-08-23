@@ -48,18 +48,44 @@ MQTT세팅
 15) mosquitto_pub -h localhost -t /topic -u hyunsu -P 0223 -m "test"  //publish
 
 
-pigpio세팅 (지터링 제거)
-$wget https://github.com/joan2937/pigpio/archive/master.zip
-$unzip master.zip
-$cd pigpio-master
-$make
-$sudo make install
-
+설치해야할 것
+1. python
+2. vsc
+3. 터치스크린
+4. 
 pip3 intsall 
   gTTS, playsound, bs4, requests, tkinter
   
-  
-  
+pip3 install SpeechRecognition
+pip3 install librosa
+pip install gTTs
+pip install playsound
+pip install tensorflow
+pip install keras
+
+
+
+import pyaudio
+import wave
+import numpy as np
+import librosa
+from keras.models import load_model
+import voice_command 
+import speech_recognition as sr
+r = sr.Recognizer()
+from gtts.tts import gTTS
+import playsound
+
+from bs4 import BeautifulSoup
+import requests
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import undetected_chromedriver as uc
+from time import localtime, time
+import random
+
+import speech_recognition as sr
   
   
   

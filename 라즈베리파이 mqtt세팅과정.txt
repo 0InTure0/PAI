@@ -52,40 +52,21 @@ MQTT세팅
 1. python
 2. vsc
 3. 터치스크린
-4. 
+4. OpenCV
+5. TKinter
 pip3 intsall 
   gTTS, playsound, bs4, requests, tkinter
-  
+bs4
+
+
+pip3 install bs4
 pip3 install SpeechRecognition
-pip3 install librosa
-pip install gTTs
-pip install playsound
-pip install tensorflow
-pip install keras
-
-
-
-import pyaudio
-import wave
-import numpy as np
-import librosa
-from keras.models import load_model
-import voice_command 
-import speech_recognition as sr
-r = sr.Recognizer()
-from gtts.tts import gTTS
-import playsound
-
-from bs4 import BeautifulSoup
-import requests
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import undetected_chromedriver as uc
-from time import localtime, time
-import random
-
-import speech_recognition as sr
-  
+ -- pip3 install librosa
+pip3 install gTTs
+pip3 install playsound
+pip3 install tensorflow
+pip3 install keras
+pip3 install tk
+pip3 intall undetected-chromedriver
   
   

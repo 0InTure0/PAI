@@ -51,7 +51,14 @@ MQTT 라즈베리파이 세팅과정
 13. service mosquitto start
 14. mosquitto_sub -h localhost -t /topic -u hyunsu -P 0223               // subscribe
 15. mosquitto_pub -h localhost -t /topic -u hyunsu -P 0223 -m "test"     //publish
-
+16. 접속 IP 열기
+  1) /etc/mosquitto/
+  2) nano mosquitto.conf
+  3) bind_address 0.0.0.0 맨 밑에
+17. 포트포워딩
+  1) URL창에 192.168.45.1 입력 - 자신 와이파이에 맞는 것 들어가기
+  2) 로그인
+  3) 포트열기 외부접속 2883-2883 IP(Broker IP) 내부접속 1883-1883 
 
 [IP고정]
   (cd .. C드라이브에서 시작)

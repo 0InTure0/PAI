@@ -1,72 +1,104 @@
 MQTT 라즈베리파이 세팅과정
 
-기본 세팅
+전체 구성
+1. 기본
+2. MQTT
+3. IP고정
+4. 라이브러리 
+5. 터치스크린
+6. 카메라
+
+[기본]
 1. SD카드 라즈비안 OS설치하기
 2. 라즈비안 부팅
   1) 부팅시 언어와 나라는 영어 시간은 Seoul로 세팅
   2) 스크린 설정
   3) 와이파이 설정
   4) 소프트웨어 업데이트하기
+   sudo apt update && sudo apt upgrade -y
 3. 한글폰트 세팅
-  sudo apt install fonts-unfonts-core
+  1) sudo apt-get install fcitx-hangul
+  2) 기본설정 -> 입력기 -> 확인 -> 예 -> fcitx사용, 확인 -> reboot
 4. 와이파이 세팅
-  오른쪽 위 라즈베리버튼 -> Raspberry Pi Configuration > Localisation > Set WiFi Country > GB Britain(UK)
+  1) 오른쪽 위 라즈베리버튼 -> Raspberry Pi Configuration > Localisation > Set WiFi Country > GB Britain(UK)
+  2) 와이파이 패드워드 넣고 연결
 5. 파이썬 설치
   1) sudo apt update
   2) sudo apt install python3
-  2) sudo apt install python3-pip
+  3) sudo apt install python3-pip
+6. VSC설치
+  1) sudo apt-get install code
+7. VNC, SSH (Enable)
 
-IP고정
- 1) sudo nano /etc/dhcpcd.conf
- 2) 맨 밑에 입력 
+[MQTT]
+1. sudo apt update && sudo apt upgrade -y		            //소프트웨어 업데이트
+2. sudo apt install mosquitto mosquitto-clients -y	    //mqtt 설치
+3. sudo systemctl status mosquitto			                //mqtt 실행
+4. sudo systemctl start mosquitto			                  //mqtt 활성화가 안 되었을 경우
+5. mosquitto_sub –t temp				                        //서브크라이버 기본 명령
+6. mosquitto_pub –t temp –m 12.2			                  //퍼블리셔 기본 명령
+7. cd etc/mosquitto                                     //cd .. C드라이브에서 시작
+8. sudo nano passwordfile
+  hyunsu:0223
+  hyunsu:040831
+  mqtt_hyunsu:0223
+9. sudo mosquitto_passwd –U passwordfile                //패스워드 암호화
+10. cd conf.d
+11. sudo nano default.conf
+  allow_anonymous false
+  password_file /etc/mosquitto/passwordfile
+12. service mosquitto stop  
+13. service mosquitto start
+14. mosquitto_sub -h localhost -t /topic -u hyunsu -P 0223               // subscribe
+15. mosquitto_pub -h localhost -t /topic -u hyunsu -P 0223 -m "test"     //publish
+
+
+[IP고정]
+  (cd .. C드라이브에서 시작)
+ 1. sudo nano /etc/dhcpcd.conf
+ 2. 맨 밑에 입력 
    interface wlan0
    static ip_address=" "  //현재 아이피
    static routers=" "      //현재 아이피의 마지막만 1로 변경
-  3) sudo /etc/init.d/networking restart
-  4) sudo reboot
-
-MQTT세팅
-1) sudo apt update && sudo apt upgrade -y		(소프트웨어 업데이트)
-2) sudo apt install mosquitto mosquitto-clients -y	(mqtt 설치)
-3) sudo systemctl status mosquitto			(mqtt 실행)
-4) sudo systemctl start mosquitto			(mqtt 활성화가 안 되었을 경우)
-5) mosquitto_sub –t temp				(서브크라이버 기본 명령)
-6) mosquitto_pub –t temp –m 12.2			(퍼블리셔 기본 명령)
-7) cd etc/mosquitto
-8) sudo nano passwordfile
-  hyunsu:0223
-  hyunsu:0223
-  mqtt_hyunsu:0223
-9) sudo mosquitto_passwd –U passwordfile
-10) cd conf.d
-11) sudo nano default.conf
-  allow_anonymous false
-  password_file /etc/mosquitto/passwordfile
-12) service mosquitto stop  
-13) service mosquitto start
-14) mosquitto_sub -h localhost -t /topic -u hyunsu -P 0223   // subscribe
-15) mosquitto_pub -h localhost -t /topic -u hyunsu -P 0223 -m "test"  //publish
+ 3. sudo /etc/init.d/networking restart
+ 4. sudo reboot
 
 
-설치해야할 것
-1. python
-2. vsc
-3. 터치스크린
-4. OpenCV
-5. TKinter
-pip3 intsall 
-  gTTS, playsound, bs4, requests, tkinter
-bs4
+[라이브러리]
+1. 파이썬 코드 라이브러리
+    pip3 install bs4
+    pip3 install SpeechRecognition
+     -- pip3 install librosa
+    pip3 install gTTs
+    pip3 install playsound
+    pip3 install tensorflow
+    pip3 install keras
+    pip3 install tk
+    pip3 intall undetected-chromedriver
+2. OpenCV                                                 //참고자료: https://fishpoint.tistory.com/6082
+    sudo apt-get -y update && sudo apt-get -y  upgrade
+    sudo apt-get -y install python3-dev
+    pip3 install opencv-python
+    pip3 install opencv-contrib-python==4.1.0.25
 
 
-pip3 install bs4
-pip3 install SpeechRecognition
- -- pip3 install librosa
-pip3 install gTTs
-pip3 install playsound
-pip3 install tensorflow
-pip3 install keras
-pip3 install tk
-pip3 intall undetected-chromedriver
+[터치스크린 세팅]                                        
+1. wget http://kedei.net/raspberry/v6_1/LCD_show_v6_1_3.tar.gz
+2. tar xvf LCD_show_v6_1_3.tar.gz
+3. cd LCD_show_v6_1_3
+4. sudo ./LCD35_v
+5. sudo ./LCD_hdmi
+//참고자료: https://bluexmas.tistory.com/835
+  
+  
+[카메라 세팅]
+1. 카메라 선의 파란 부분이 이어폰 잭을 향하도록 꽂기
+2. Menu -> Preferences -> Raspberry Pi Configuration -> Interfaces -> Camera (Enable)
+3. reboot
+
+[RxTx]
+1. sudo apt-get install arduino
+2. tool -> board -> TttyACM0
+https://m.blog.naver.com/whdgml1996/221543296086
   
   

@@ -75,7 +75,12 @@ MQTT 라즈베리파이 세팅과정
 1. 파이썬 코드 라이브러리
     pip3 install bs4
     pip3 install SpeechRecognition
-     -- pip3 install librosa
+    sudo pip3 install pandas
+    sudo pip3 install numpy --upgrade
+    sudo apt install libblas-dev llvm python3-pip python3-scipy
+    sudo pip3 install llvmlite
+    sudo pip3 install numba
+    pip3 install librosa
     pip3 install gTTs
     pip3 install playsound
     pip3 install tensorflow

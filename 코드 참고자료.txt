@@ -16,6 +16,8 @@ https://blog.naver.com/PostView.nhn?blogId=emperonics&logNo=222039301356
 음성인식 프로그램 사이트
 https://aiopen.etri.re.kr/key_main.php
 
+librosa
+https://m.blog.naver.com/simjk98/221850736937
 
 Collecting scipy>=1.2.0
   Using cached scipy-1.9.0.tar.gz (42.0 MB)

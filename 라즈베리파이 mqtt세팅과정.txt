@@ -38,11 +38,10 @@ MQTT 라즈베리파이 세팅과정
 4. sudo systemctl start mosquitto			                  //mqtt 활성화가 안 되었을 경우
 5. mosquitto_sub –t temp				                        //서브크라이버 기본 명령
 6. mosquitto_pub –t temp –m 12.2			                  //퍼블리셔 기본 명령
-7. cd etc/mosquitto                                     //cd .. C드라이브에서 시작
+7. cd /etc/mosquitto                                     //cd .. C드라이브에서 시작
 8. sudo nano passwordfile
   hyunsu:0223
   hyunsu:040831
-  mqtt_hyunsu:0223
 9. sudo mosquitto_passwd –U passwordfile                //패스워드 암호화
 10. cd conf.d
 11. sudo nano default.conf
@@ -50,11 +49,11 @@ MQTT 라즈베리파이 세팅과정
   password_file /etc/mosquitto/passwordfile
 12. service mosquitto stop  
 13. service mosquitto start
-14. mosquitto_sub -h localhost -t /topic -u hyunsu -P 0223               // subscribe
-15. mosquitto_pub -h localhost -t /topic -u hyunsu -P 0223 -m "test"     //publish
+14. mosquitto_sub -h localhost -t /topic -u hyunsu -P 040831               // subscribe
+15. mosquitto_pub -h localhost -t /topic -u hyunsu -P 040831 -m "test"     //publish
 16. 접속 IP 열기
-  1) /etc/mosquitto/
-  2) nano mosquitto.conf
+  1) cd /etc/mosquitto/
+  2) sudo nano mosquitto.conf
   3) bind_address 0.0.0.0 맨 밑에
 17. 포트포워딩
   1) URL창에 192.168.45.1 입력 - 자신 와이파이에 맞는 것 들어가기
@@ -90,7 +89,7 @@ https://github.com/PINTO0309/Tensorflow-bin
     
     pip3 install keras
     pip3 install tk
-    pip3 intall undetected-chromedriver
+    pip3 install undetected-chromedriver
     sudo apt install python3-pyaudio
 2. OpenCV                                                 //참고자료: https://fishpoint.tistory.com/6082
     sudo apt-get -y update && sudo apt-get -y  upgrade

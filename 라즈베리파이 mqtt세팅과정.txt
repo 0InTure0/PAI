@@ -17,8 +17,9 @@ MQTT 라즈베리파이 세팅과정
   4) 소프트웨어 업데이트하기
    sudo apt update && sudo apt upgrade -y
 3. 한글폰트 세팅
-  1) sudo apt-get install fcitx-hangul
-  2) 기본설정 -> 입력기 -> 확인 -> 예 -> fcitx사용, 확인 -> reboot
+  1) sudo apt install fonts-unfonts-core
+  2) sudo apt-get install fcitx-hangul
+  3) 기본설정 -> 입력기 -> 확인 -> 예 -> fcitx사용, 확인 -> reboot
 4. 와이파이 세팅
   1) 오른쪽 위 라즈베리버튼 -> Raspberry Pi Configuration > Localisation > Set WiFi Country > GB Britain(UK)
   2) 와이파이 패드워드 넣고 연결

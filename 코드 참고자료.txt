@@ -21,3 +21,19 @@ https://m.blog.naver.com/simjk98/221850736937
 
 
 https://seo-dh-elec.tistory.com/32
+
+
+from time import sleep
+import serial
+
+ser = serial.Serial(port='/dev/ttyUSB0', baudrate=115200)
+
+command = 'C00120'
+ser.write(command.encode())
+print("sub_command")
+sleep(6)
+if ser.readable():
+  print("sub_command")
+  arduino_msg = ser.read_all() 
+  print(arduino_msg)
+print("sub_command")

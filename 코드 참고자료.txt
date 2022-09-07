@@ -19,6 +19,8 @@ https://aiopen.etri.re.kr/key_main.php
 librosa
 https://m.blog.naver.com/simjk98/221850736937
 
+esp32칩셋
+http://john-home.iptime.org:8085/xe/index.php?mid=board_NGwN54&document_srl=1333
 
 https://seo-dh-elec.tistory.com/32
 

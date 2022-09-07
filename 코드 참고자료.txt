@@ -22,6 +22,8 @@ https://m.blog.naver.com/simjk98/221850736937
 
 https://seo-dh-elec.tistory.com/32
 
+전력소모 줄이기
+https://www.mischianti.org/2021/03/15/esp32-practical-power-saving-deep-sleep-and-hibernation-3/
 
 소리 변형
 https://velog.io/@paulleelife/%ED%8C%8C%EC%9D%B4%EC%8D%AC%EC%9C%BC%EB%A1%9C-%EC%9D%8C%EC%84%B1%EB%B3%80%ED%99%98-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EB%A7%8C%EB%93%A4%EA%B8%B0
